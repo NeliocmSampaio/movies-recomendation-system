@@ -32,7 +32,14 @@ values( "James Cameron"),
         ("Mike Newell"),
         ("Chris Columbus");
         
-insert into director_movie (director_id, movie_id)
+insert into tab_users (uuid, name)
+values 	("123", "Joao"),
+		("124", "Maria"),
+        ("125", "Carla"),
+        ("126", "Joana"),
+        ("127", "Tonho");
+        
+insert into tab_director_movie (director_id, movie_id)
 values (7, 1),
 		(7, 2),
         (4, 3),
@@ -51,7 +58,7 @@ values (7, 1),
         (2, 16),
         (2, 17);
         
-insert into artist_movie (artist_id, movie_id)
+insert into tab_artist_movie (artist_id, movie_id)
 values (1, 1),
 		(1, 2),
         (1, 3),
@@ -61,3 +68,13 @@ values (1, 1),
         (2, 3),
         (4, 10),
         (4, 13);
+        
+insert into tab_user_movie (user_id, movie_id, rate)
+values	(1, 1, 5),
+		(1, 2, 2),
+        (1, 3, 1),
+        (1, 5, 5),
+        (2, 1, 5),
+        (2, 7, 5),
+        (3, 7, 1),
+        (3, 1, 2);

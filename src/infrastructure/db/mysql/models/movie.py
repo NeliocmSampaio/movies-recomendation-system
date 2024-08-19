@@ -2,6 +2,8 @@ from ..mysql import Base
 from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import relationship
 from .artist_movie import artist_movie_association
+from .director_movie import director_movie_association
+from .user_movie import user_movie_association
 
 
 class Movie(Base):
@@ -14,3 +16,9 @@ class Movie(Base):
 
     artists = relationship(
         "Artist", secondary=artist_movie_association, back_populates="movie")
+
+    directors = relationship(
+        "Director", secondary=director_movie_association, back_populates="movie")
+
+    users = relationship(
+        "User", secondary=user_movie_association, back_populates="movie")

@@ -13,8 +13,8 @@ from .infrastructure.db.mysql.models.movie import Movie
 from .infrastructure.db.mysql.models.artist import Artist
 from .infrastructure.db.mysql.models.director import Director
 
-# Base.metadata.drop_all(bind=engine)
-# Base.metadata.create_all(bind=engine)
+Base.metadata.drop_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
