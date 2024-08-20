@@ -1,8 +1,8 @@
 from ..mysql import Base
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from .artist_movie import artist_movie_association
-from .director_movie import director_movie_association
+# from .director_movie import director_movie_association
 from .user_movie import user_movie_association
 
 
@@ -13,12 +13,13 @@ class MovieModel(Base):
     name = Column(String(100))
     description = Column(String(200))
     release_date = Column(Date)
+    director_id = Column(Integer, ForeignKey("tab_directors.id"))
 
     artists = relationship(
         "ArtistModel", secondary=artist_movie_association, back_populates="movies")
 
     directors = relationship(
-        "DirectorModel", secondary=director_movie_association, back_populates="movies")
+        "DirectorModel", back_populates="movies")
 
     users = relationship(
         "UserModel", secondary=user_movie_association, back_populates="movies")

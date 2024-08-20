@@ -1,7 +1,7 @@
 from ..mysql import Base
 from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import relationship
-from .director_movie import director_movie_association
+# from .director_movie import director_movie_association
 
 
 class DirectorModel(Base):
@@ -11,4 +11,4 @@ class DirectorModel(Base):
     name = Column(String(100))
 
     movies = relationship(
-        'MovieModel', secondary=director_movie_association, back_populates="directors")
+        'MovieModel', back_populates="directors")
