@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy import text
 
-from ...config import Config, db_config
+from ...core.config import Config, db_config
 
 Base = declarative_base()
 
@@ -17,4 +17,3 @@ engine = create_engine(
     echo=True
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-

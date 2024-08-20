@@ -15,10 +15,10 @@ class Movie(Base):
     release_date = Column(Date)
 
     artists = relationship(
-        "Artist", secondary=artist_movie_association, back_populates="movie")
+        "Artist", secondary=artist_movie_association, back_populates="movies")
 
     directors = relationship(
-        "Director", secondary=director_movie_association, back_populates="movie")
+        "Director", secondary=director_movie_association, back_populates="movies")
 
     users = relationship(
-        "User", secondary=user_movie_association, back_populates="movie")
+        "User", secondary=user_movie_association, back_populates="movies")

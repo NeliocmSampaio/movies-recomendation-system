@@ -4,8 +4,8 @@ from datetime import date
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..requests.movie_requests import MovieRequest
-from ...infrastructure.db.mysql.dependencies import get_db
-from ...infrastructure.db.mysql.models.movie import Movie
+from ...infrastructure.db.dependencies import get_db
+from ...infrastructure.db.models.movie import Movie
 from pydantic import BaseModel
 from typing import List
 

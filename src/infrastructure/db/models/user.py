@@ -11,6 +11,5 @@ class User(Base):
     uuid = Column(String(50), unique=True)
     name = Column(String(100))
 
-
     movies = relationship(
         'Movie', secondary=user_movie_association, back_populates="users")

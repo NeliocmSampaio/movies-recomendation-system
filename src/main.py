@@ -2,16 +2,16 @@ import uvicorn
 
 from fastapi import FastAPI
 
-from .app.routers import movie
-from .app.routers import user
-from .app.routers import health
+from .api.controllers import movie
+from .api.controllers import user
+from .api.controllers import health
 
-from .infrastructure.db.mysql.mysql import engine, Base
+from .infrastructure.db.mysql import engine, Base
 
-from .infrastructure.db.mysql.models.user import User
-from .infrastructure.db.mysql.models.movie import Movie
-from .infrastructure.db.mysql.models.artist import Artist
-from .infrastructure.db.mysql.models.director import Director
+from .infrastructure.db.models.user import User
+from .infrastructure.db.models.movie import Movie
+from .infrastructure.db.models.artist import Artist
+from .infrastructure.db.models.director import Director
 
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
