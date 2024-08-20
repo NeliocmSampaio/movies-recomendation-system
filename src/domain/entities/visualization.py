@@ -6,6 +6,9 @@ from sqlalchemy.orm import Session
 from typing import List
 from ...infrastructure.db.models.user import UserModel
 from ...infrastructure.db.models.movie import MovieModel
+import pandas as pd
+from sklearn.preprocessing import MultiLabelBinarizer
+import ratings
 
 
 class Visualization:
@@ -21,12 +24,31 @@ class VisualizationHistory:
 
         data = []
         for user in users:
-            user_data = [user.id]
             for movie in user.movies:
-                print(movie.name)
-                user_data.append(movie.id)
-                user_data.append(movie.directors.id)
-                for artist in movie.artists:
-                    user_data.append(artist.id)
+                data.append(
+                    {
+                        "user_id": user.id,
+                        "movie_id": movie.id,
+                        "director": movie.director_id,
+                        "artists": [artist.id for artist in movie.artists]
+                    }
+                )
 
-        print(data)
+        df = pd.DataFrame(data)
+        print(df)
+
+        mlb_artists = MultiLabelBinarizer()
+        artists_encoded = mlb_artists.fit_transform(df["artists"])
+
+        df_artists = pd.DataFrame(
+            artists_encoded, columns=mlb_artists.classes_)
+
+        df = pd.concat([df, df_artists], axis=1)
+
+        df.drop(columns=["artists"], inplace=True)
+
+        print(df)
+
+        # (training, test) = ratings.randomSplit([0.8, 0.2])
+        # als = ALS(maxIter=5, regParam=0.01, userCol="user_id",
+        # itemCol = "movie_id", ratingCol = "", coldStartStrategy="drop")
