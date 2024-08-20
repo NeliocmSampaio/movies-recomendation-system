@@ -3,7 +3,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..requests.user_request import UserRequest
 from ...infrastructure.db.dependencies import get_db
-from ...infrastructure.db.models.user import User
 from ...schemas.user import UserSchema
 from ...crud.user import create_user, get_user, get_users
 from pydantic import BaseModel

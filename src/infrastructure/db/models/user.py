@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from .user_movie import user_movie_association
 
 
-class User(Base):
+class UserModel(Base):
     __tablename__ = 'tab_users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -12,4 +12,4 @@ class User(Base):
     name = Column(String(100))
 
     movies = relationship(
-        'Movie', secondary=user_movie_association, back_populates="users")
+        'MovieModel', secondary=user_movie_association, back_populates="users")

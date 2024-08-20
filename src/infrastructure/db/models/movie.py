@@ -6,7 +6,7 @@ from .director_movie import director_movie_association
 from .user_movie import user_movie_association
 
 
-class Movie(Base):
+class MovieModel(Base):
     __tablename__ = 'tab_movies'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -15,10 +15,10 @@ class Movie(Base):
     release_date = Column(Date)
 
     artists = relationship(
-        "Artist", secondary=artist_movie_association, back_populates="movies")
+        "ArtistModel", secondary=artist_movie_association, back_populates="movies")
 
     directors = relationship(
-        "Director", secondary=director_movie_association, back_populates="movies")
+        "DirectorModel", secondary=director_movie_association, back_populates="movies")
 
     users = relationship(
-        "User", secondary=user_movie_association, back_populates="movies")
+        "UserModel", secondary=user_movie_association, back_populates="movies")

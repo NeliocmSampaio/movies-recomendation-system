@@ -4,11 +4,11 @@ from sqlalchemy.orm import relationship
 from .artist_movie import artist_movie_association
 
 
-class Artist(Base):
+class ArtistModel(Base):
     __tablename__ = 'tab_artists'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100))
 
     movies = relationship(
-        'Movie', secondary=artist_movie_association, back_populates="artists")
+        'MovieModel', secondary=artist_movie_association, back_populates="artists")

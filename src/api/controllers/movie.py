@@ -5,7 +5,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..requests.movie_requests import MovieRequest
 from ...infrastructure.db.dependencies import get_db
-from ...infrastructure.db.models.movie import Movie
+from ...infrastructure.db.models.movie import MovieModel
+from ...schemas.movie import MovieSchema
+from ...crud.movie import create_movie, get_movies, get_movie
 from pydantic import BaseModel
 from typing import List
 
@@ -22,25 +24,22 @@ class MovieResponse(BaseModel):
 
 
 @router.get("/")
-def get_movies(db: Session = Depends(get_db)) -> List[MovieResponse]:
-    return db.query(Movie).all()
+def handle_get_movies(db: Session = Depends(get_db)) -> List[MovieResponse]:
+    data = get_movies(db)
+    return data
 
 
 @router.get("/{movie_id}")
-def get_movie(movie_id,
-              db: Session = Depends(get_db)) -> MovieResponse:
-    return db.query(Movie).filter(Movie.id == movie_id).first()
+def handle_get_movie(movie_id,
+                     db: Session = Depends(get_db)) -> MovieResponse:
+    return get_movie(db, movie_id)
 
 
 @router.post("/")
-def add_movie(movieRequest: MovieRequest,
-              db: Session = Depends(get_db)) -> MovieResponse:
-    movie_uuid = uuid.uuid4()
-    movie = Movie(
+def handle_create_movie(movieRequest: MovieRequest,
+                        db: Session = Depends(get_db)) -> MovieResponse:
+    movie = MovieSchema(
         **movieRequest.model_dump()
     )
 
-    db.add(movie)
-    db.commit()
-
-    return movie
+    return create_movie(db, movie)
