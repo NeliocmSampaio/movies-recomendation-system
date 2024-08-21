@@ -14,9 +14,6 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-# from pyspark.ml.recommendation import ALS
-# from pyspark.ml.evaluation import RegressionEvaluator
-
 
 class Visualization:
     user: User
@@ -28,10 +25,11 @@ class Model:
     user_movie_matrix: pd.DataFrame
 
 
-class VisualizationHistory:
-    log: List[Visualization]
+class RecomendationSystem:
+    model: Model
+    visualization_history: pd.DataFrame
 
-    def get_history(self, db: Session):
+    def load_history(self, db: Session):
         users = db.query(UserModel).all()
 
         data = []
@@ -43,51 +41,34 @@ class VisualizationHistory:
                 data.append(
                     {
                         "user_id": user.id,
-                        "movie_id": movie.id,
+                        "movie_id": movie.name,
                         "director": movie.director_id,
                         "artists": [artist.id for artist in movie.artists],
                         "rating": rating
                     }
                 )
 
-        df = pd.DataFrame(data)
+        self.visualization_history = pd.DataFrame(data)
 
         mlb_artists = MultiLabelBinarizer()
-        artists_encoded = mlb_artists.fit_transform(df["artists"])
+        artists_encoded = mlb_artists.fit_transform(
+            self.visualization_history["artists"])
 
         df_artists = pd.DataFrame(
             artists_encoded, columns=mlb_artists.classes_)
 
-        df = pd.concat([df, df_artists], axis=1)
+        self.visualization_history = pd.concat(
+            [self.visualization_history, df_artists], axis=1)
 
-        df.drop(columns=["artists"], inplace=True)
+        self.visualization_history.drop(columns=["artists"], inplace=True)
 
-        return df
+        return self.visualization_history
 
-        # spark = SparkSession.builder.master('local[*]').getOrCreate()
-        # ratings = spark.createDataFrame(df)
+    def train_recomendation(self):
 
-        # (training, test) = ratings.randomSplit([0.8, 0.2])
-        # als = ALS(maxIter=5, regParam=0.01, userCol="user_id",
-        #           itemCol="movie_id", ratingCol="rating", coldStartStrategy="drop")
-
-        # model = als.fit(training)
-
-        # predictions = model.transform(test)
-        # evaluator = RegressionEvaluator(
-        #     metricName="rmse", labelCol="rating", predictionCol="prediction")
-
-        # rmse = evaluator.evaluate(predictions)
-        # print("Error = ", str(rmse))
-
-    def train_recomendation(self, df):
-        print(df)
-
-        user_movie_matrix = df.pivot_table(
+        user_movie_matrix = self.visualization_history.pivot_table(
             index='user_id', columns='movie_id', values='rating')
         user_movie_matrix.fillna(0, inplace=True)
-
-        print(user_movie_matrix)
 
         movies_similarity = cosine_similarity(user_movie_matrix.T)
         prediction_matrix = np.dot(user_movie_matrix, movies_similarity)
@@ -99,25 +80,21 @@ class VisualizationHistory:
         df_prediction = pd.DataFrame(
             prediction_matrix, index=user_movie_matrix.index, columns=user_movie_matrix.columns)
 
-        print(df_prediction)
+        self.model = Model()
+        self.model.df_predictions = df_prediction
+        self.model.user_movie_matrix = user_movie_matrix
+        return self.model
 
-        model = Model()
-        model.df_predictions = df_prediction
-        model.user_movie_matrix = user_movie_matrix
-        return model
-
-        # n_components = 20
-        # svd = TruncatedSVD(n_components=n_components)
-        # latent_matrix = svd.fit_transform(user_movie_matrix)
-        # reconstructed_matrix = np.dot(latent_matrix, svd.components_)
-        # df_reconstructed = pd.DataFrame(reconstructed_matrix, index=user_movie_matrix.index, columns=user_movie_matrix.columns)
-
-    def recomend_movies(self, model: Model, user_id, num_recomendations=2):
-        user_predictions = model.df_predictions.loc[user_id].sort_values(
+    def recomend_movies(self, user_id, num_recomendations=2):
+        user_predictions = self.model.df_predictions.loc[user_id].sort_values(
             ascending=False)
-        not_rated_movies = model.user_movie_matrix.loc[user_id][
-            model.user_movie_matrix.loc[user_id] == 0].index
+
+        not_rated_movies = self.model.user_movie_matrix.loc[user_id][
+            self.model.user_movie_matrix.loc[user_id] == 0].index
         recomended = user_predictions[not_rated_movies].head(
             num_recomendations)
-        # print(recomended)
+
         return recomended
+
+
+RecomendationModel = RecomendationSystem()

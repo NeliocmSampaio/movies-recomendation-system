@@ -1,23 +1,29 @@
 from ..entities import visualization
+from ..entities.visualization import RecomendationModel
 from sqlalchemy.orm import Session
+from ..entities.visualization import Model
+import numpy as np
+
+trained_model = Model()
 
 
-def get_visualization_history(db: Session):
-    data = visualization.VisualizationHistory()
+def train_model(db: Session):
+    RecomendationModel.load_history(db)
 
-    df = data.get_history(db)
+    model = RecomendationModel.train_recomendation()
 
-    model = data.train_recomendation(df)
+    trained_model.df_predictions = model.df_predictions
+    trained_model.user_movie_matrix = model.user_movie_matrix
 
-    for user_id in range(1, 10):
-        recomended = data.recomend_movies(
-            user_id=user_id, model=model, num_recomendations=3)
 
-        print("User ", user_id)
-        for i, (movie_id, pred_rating) in enumerate(recomended.items(), 1):
-            print(f"{i}. Movie {movie_id} - Predição de nota: {pred_rating:.1f}")
+def get_recomendation_for_user(user_id: int):
+    recomended = RecomendationModel.recomend_movies(
+        user_id=user_id, num_recomendations=3)
 
-    recomended = data.recomend_movies(
-        user_id=10, model=model, num_recomendations=5)
+    print("User ", user_id)
+    for i, (movie_id, pred_rating) in enumerate(recomended.items(), 1):
+        print(f"{i}. Movie {movie_id} - Predição de nota: {pred_rating:.1f}")
 
-    return recomended
+    recomendation = [(movie, rating) for (movie, rating) in recomended.items()]
+
+    return recomendation

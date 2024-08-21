@@ -8,4 +8,9 @@ router = APIRouter(prefix="/recomendation", tags=["recomendation"])
 
 @router.post("/train")
 def handle_train_model(db: Session = Depends(get_db)):
-    return recomendation.get_visualization_history(db)
+    return recomendation.train_model(db)
+
+
+@router.post("/get-recomendation/{user_id}")
+def handle_get_recomendation(user_id: int):
+    return recomendation.get_recomendation_for_user(user_id)
