@@ -4,7 +4,25 @@ O projeto implementa uma aplicação para gerenciamento dos dados de uma platafo
 
 ### Guia para utilização
 
+Foi utilizada a versão 3.12.5 do Python, que pode ser baixado na [página oficial](https://www.python.org/downloads/).
 
+O código está disponível no github. Para baixar, clone o repositório com o comando:
+
+```
+git clone https://github.com/NeliocmSampaio/movies-recomendation-system.git
+```
+
+As bibliotecas utilizadas estão listadas no arquivo 'movies-recomendation-system/src/requirements.txt'. Para instalá-las, rode o comando de dentro da pasta src:
+
+```
+pip install -r requirements.txt
+```
+
+Para rodar o projeto, rode o comando:
+
+```
+
+```
 
 ### Arquitetura
 
