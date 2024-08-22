@@ -43,6 +43,7 @@ class RecomendationSystem:
                         "user_id": user.id,
                         "movie_id": movie.name,
                         "director": movie.director_id,
+                        "genre": movie.genre,
                         "artists": [artist.id for artist in movie.artists],
                         "rating": rating
                     }

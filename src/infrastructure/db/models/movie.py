@@ -13,6 +13,7 @@ class MovieModel(Base):
     name = Column(String(100))
     description = Column(String(200))
     release_date = Column(Date)
+    genre = Column(String(30))
     director_id = Column(Integer, ForeignKey("tab_directors.id"))
 
     artists = relationship(

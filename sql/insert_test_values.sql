@@ -7,24 +7,24 @@ values( "James Cameron"),
         ("Mike Newell"),
         ("Chris Columbus");
 
-insert into tab_movies (name, description, release_date, director_id)
-values ("Harry Potter I", "um filme muito legal.", "2001-01-01", 7),
-		("Harry Potter II", "um filme muito legal.", "2001-01-01", 7),
-        ("Harry Potter III", "um filme muito legal.", "2001-01-01", 4),
-        ("Harry Potter IV", "um filme muito legal.", "2001-01-01", 6),
-        ("Harry Potter V", "um filme muito legal.", "2001-01-01", 5),
-        ("Harry Potter VI", "um filme muito legal.", "2001-01-01", 5),
-        ("Harry Potter VII", "um filme muito legal.", "2001-01-01", 5),
-        ("Harry Potter VIII", "um filme muito legal.", "2001-01-01", 5),
-        ("Criaturas das Profundezas", "Nao conheco.", "2001-01-01", 1),
-        ("Titanic", "oscar.", "2001-01-01", 1),
-        ("Avatar", "Bonzinho", "2001-01-01", 1),
-        ("Avatar II", "Mais legal", "2001-01-01", 1),
-        ("A Origem", "Muito bom", "2001-01-01", 3),
-        ("Interestelar", "Melhor filme", "2001-01-01", 3),
-        ("Dunkirk", "Nao assisti.", "2001-01-01", 3),
-        ("Tubarao", "...", "2001-01-01", 2),
-        ("E.T.", "Classico", "2001-01-01", 2);
+insert into tab_movies (name, description, release_date, director_id, genre)
+values ("Harry Potter I", "um filme muito legal.", "2001-01-01", 7, "Fantasy"),
+		("Harry Potter II", "um filme muito legal.", "2001-01-01", 7, "Fantasy"),
+        ("Harry Potter III", "um filme muito legal.", "2001-01-01", 4, "Fantasy"),
+        ("Harry Potter IV", "um filme muito legal.", "2001-01-01", 6, "Fantasy"),
+        ("Harry Potter V", "um filme muito legal.", "2001-01-01", 5, "Fantasy"),
+        ("Harry Potter VI", "um filme muito legal.", "2001-01-01", 5, "Fantasy"),
+        ("Harry Potter VII", "um filme muito legal.", "2001-01-01", 5, "Fantasy"),
+        ("Harry Potter VIII", "um filme muito legal.", "2001-01-01", 5, "Fantasy"),
+        ("Criaturas das Profundezas", "Nao conheco.", "2001-01-01", 1, "Horror"),
+        ("Titanic", "oscar.", "2001-01-01", 1, "Romance"),
+        ("Avatar", "Bonzinho", "2001-01-01", 1, "Sci-fi"),
+        ("Avatar II", "Mais legal", "2001-01-01", 1, "Sci-fi"),
+        ("A Origem", "Muito bom", "2001-01-01", 3, "Sci-fi"),
+        ("Interestelar", "Melhor filme", "2001-01-01", 3, "Sci-fi"),
+        ("Dunkirk", "Nao assisti.", "2001-01-01", 3, "War"),
+        ("Tubarao", "...", "2001-01-01", 2, "Thriller"),
+        ("E.T.", "Classico", "2001-01-01", 2, "Sci-fi");
         
 insert into tab_artists (name)
 values ("Daniel"),

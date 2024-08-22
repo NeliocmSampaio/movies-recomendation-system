@@ -15,8 +15,8 @@ from .infrastructure.db.models.movie import MovieModel
 from .infrastructure.db.models.artist import ArtistModel
 from .infrastructure.db.models.director import DirectorModel
 
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+# Base.metadata.drop_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
